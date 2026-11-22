@@ -1,0 +1,30 @@
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Arial","fontSize":"15px","primaryColor":"#EAF2FB","primaryBorderColor":"#1F4E79","lineColor":"#44546A","clusterBkg":"#F7F9FC","clusterBorder":"#9DB4D3"}}}%%
+flowchart TB
+  subgraph OFF["1 · OFFLINE TRAINING  (src/)"]
+    direction LR
+    A[("Public dataset<br/>Give Me Some Credit<br/>150,000 applicants")] --> B["data_pipeline.py<br/>schema check · stratified<br/>70/15/15 split · leakage audit"]
+    B --> C["train.py<br/>features fitted on TRAIN only<br/>3 baselines + LightGBM<br/>cost-based threshold on VAL"]
+    C --> E["evaluate.py<br/>TEST used once<br/>PR-AUC · F1 · cost"]
+  end
+  C --> D[["artifacts/  model.joblib · model_metadata.json · reference_profile.json"]]
+  subgraph ON["2 · SERVING  (serving/)"]
+    direction LR
+    F["Loan origination<br/>system / client"] -->|"POST /predict<br/>POST /predict/batch"| G["FastAPI app.py<br/>Pydantic validation → 422<br/>request ID · latency headers"]
+    J["predict_batch.py<br/>CSV in → CSV out (IDs)<br/>REJECTED rows logged"] --> H
+    G --> H["ModelService<br/>load once · NumPy features<br/>LightGBM score + threshold"]
+    H -. "model fails / not loaded" .-> I["Rule-based fallback<br/>fallback_used = true<br/>/health → 503"]
+  end
+  subgraph OPS["3 · OPERATIONS"]
+    direction LR
+    K["benchmark.py<br/>p50 / p95 / p99 · req/s · rec/s"]
+    M["GET /metrics<br/>errors · fallbacks · latency"]
+    L["monitoring.py<br/>PSI + KS per feature & score<br/>OK / WARN / ALERT"]
+    L -->|"ALERT (PSI ≥ 0.25)"| N(["Retraining review<br/>→ re-run train.py"])
+  end
+  D --> H
+  D --> L
+  G --> M
+  N -.-> C
+  classDef store fill:#FFF4E5,stroke:#C55A11;
+  classDef warn fill:#FDECEA,stroke:#C62828;
+  class D store; class I,N warn;
