@@ -2,7 +2,7 @@
 
 End-to-end production ML system that predicts whether a loan applicant will become **90+ days delinquent within two years**. It covers the whole lifecycle: leak-free data split, cost-sensitive LightGBM, serialized pipeline artifacts, a **FastAPI** scoring service with **Pydantic** validation and a graceful fallback, a **batch CLI**, latency/throughput profiling, and **PSI/KS drift monitoring**.
 
-> BITS Pilani WILP · ML Model Engineering · Graded Assignment 1
+> BITS Pilani · ML Model Engineering · Graded Assignment 1
 > Student: **Ayesha Mohammad (2025em1200344)** · GitHub: [ayeshamohammad578](https://github.com/ayeshamohammad578)
 
 ![tests](../../actions/workflows/tests.yml/badge.svg)
