@@ -1,0 +1,208 @@
+{
+  "single_sequential": {
+    "n": 1000,
+    "p50_ms": 4.428684999993493,
+    "p95_ms": 5.807231150089365,
+    "p99_ms": 7.560655109988373,
+    "mean_ms": 4.632027400000311,
+    "max_ms": 22.114034999958676,
+    "requests_per_sec": 215.81676523511456
+  },
+  "batch_endpoint_100_records": {
+    "n": 100,
+    "p50_ms": 7.836669000027996,
+    "p95_ms": 10.928265000001147,
+    "p99_ms": 11.833620389953703,
+    "mean_ms": 8.196278700004314,
+    "max_ms": 13.412015999961113,
+    "records_per_sec": 12198.186581963484
+  },
+  "concurrent_8_clients": {
+    "n": 2000,
+    "p50_ms": 34.98707049999439,
+    "p95_ms": 51.70695250005223,
+    "p99_ms": 59.66570811999417,
+    "mean_ms": 35.58772454900019,
+    "max_ms": 78.67630499993084,
+    "requests_per_sec": 222.35077793150512,
+    "error_rate": 0.0
+  },
+  "server_metrics_endpoint": {
+    "requests": 3162,
+    "errors_4xx": 7,
+    "errors_5xx": 0,
+    "fallbacks": 0,
+    "records_scored": 13054,
+    "latency_ms_p50": 21.194416000071215,
+    "latency_ms_p95": 40.10423199997604,
+    "latency_ms_p99": 47.93266740005038,
+    "window": 3161,
+    "model_version": "credit-default-lgbm-1.0.0",
+    "model_loaded": true
+  },
+  "robustness": {
+    "valid record": {
+      "expected": 200,
+      "got": 200,
+      "pass": true,
+      "response": {
+        "applicant_id": "71143",
+        "probability_of_default": 0.005142,
+        "decision": "APPROVE",
+        "risk_band": "LOW",
+        "threshold": 0.16,
+        "model_version": "credit-default-lgbm-1.0.0",
+        "fallback_used": false
+      }
+    },
+    "monthly_income missing (null)": {
+      "expected": 200,
+      "got": 200,
+      "pass": true,
+      "response": {
+        "applicant_id": "71143",
+        "probability_of_default": 0.005142,
+        "decision": "APPROVE",
+        "risk_band": "LOW",
+        "threshold": 0.16,
+        "model_version": "credit-default-lgbm-1.0.0",
+        "fallback_used": false
+      }
+    },
+    "extreme outlier revol_util=50,000": {
+      "expected": 200,
+      "got": 200,
+      "pass": true,
+      "response": {
+        "applicant_id": "71143",
+        "probability_of_default": 0.037212,
+        "decision": "APPROVE",
+        "risk_band": "LOW",
+        "threshold": 0.16,
+        "model_version": "credit-default-lgbm-1.0.0",
+        "fallback_used": false
+      }
+    },
+    "bureau code late_90=98": {
+      "expected": 200,
+      "got": 200,
+      "pass": true,
+      "response": {
+        "applicant_id": "71143",
+        "probability_of_default": 0.008294,
+        "decision": "APPROVE",
+        "risk_band": "LOW",
+        "threshold": 0.16,
+        "model_version": "credit-default-lgbm-1.0.0",
+        "fallback_used": false
+      }
+    },
+    "required field missing (age)": {
+      "expected": 422,
+      "got": 422,
+      "pass": true,
+      "response": [
+        {
+          "field": "age",
+          "message": "Field required",
+          "input": {
+            "revol_util": 0.0,
+            "late_30_59": 0,
+            "late_60_89": 0,
+            "late_90": 0,
+            "debt_ratio": 774.0,
+            "monthly_income": null,
+            "open_lines": 2,
+            "real_estate_lines": 1,
+            "dependents": null,
+            "applicant_id": "71143"
+          }
+        }
+      ]
+    },
+    "negative debt_ratio": {
+      "expected": 422,
+      "got": 422,
+      "pass": true,
+      "response": [
+        {
+          "field": "debt_ratio",
+          "message": "Input should be greater than or equal to 0",
+          "input": -1.0
+        }
+      ]
+    },
+    "impossible age=7": {
+      "expected": 422,
+      "got": 422,
+      "pass": true,
+      "response": [
+        {
+          "field": "age",
+          "message": "Input should be greater than or equal to 18",
+          "input": 7
+        }
+      ]
+    },
+    "string in numeric field": {
+      "expected": 422,
+      "got": 422,
+      "pass": true,
+      "response": [
+        {
+          "field": "open_lines",
+          "message": "Input should be a valid integer, unable to parse string as an integer",
+          "input": "five"
+        }
+      ]
+    },
+    "unknown extra field": {
+      "expected": 422,
+      "got": 422,
+      "pass": true,
+      "response": [
+        {
+          "field": "credit_score",
+          "message": "Extra inputs are not permitted",
+          "input": 700
+        }
+      ]
+    },
+    "empty batch": {
+      "expected": 422,
+      "got": 422,
+      "pass": true,
+      "response": [
+        {
+          "field": "records",
+          "message": "List should have at least 1 item after validation, not 0",
+          "input": []
+        }
+      ]
+    },
+    "malformed JSON body": {
+      "expected": 422,
+      "got": 422,
+      "pass": true
+    }
+  },
+  "model_only_single_record": {
+    "n": 300,
+    "p50_ms": 2.221288500038554,
+    "p95_ms": 2.8522320499405396,
+    "p99_ms": 2.925640109999676,
+    "mean_ms": 2.246478680005263,
+    "max_ms": 3.3648890000677056
+  },
+  "model_only_1000_records_ms": 22.65529900000729,
+  "batch_cli_test_file": {
+    "rows": 22500,
+    "scored": 22500,
+    "rejected": 0,
+    "score_seconds": 0.22187171999996735,
+    "total_seconds": 0.33893238300004214,
+    "records_per_sec_scoring": 101409.94985752719,
+    "records_per_sec_end_to_end": 66384.92256432517,
+    "fallback_used": false
+  }
+}

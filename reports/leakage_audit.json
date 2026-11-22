@@ -1,0 +1,20 @@
+{
+  "rows": {
+    "train": 104655,
+    "val": 22500,
+    "test": 22500
+  },
+  "default_rate": {
+    "train": 0.067,
+    "val": 0.0668,
+    "test": 0.0668
+  },
+  "id_overlap_train_val": 0,
+  "id_overlap_train_test": 0,
+  "id_overlap_val_test": 0,
+  "identical_feature_rows_train_test": 111,
+  "target_derived_features": [],
+  "post_outcome_features": [],
+  "preprocessing_fitted_on": "train partition only (inside sklearn Pipeline)",
+  "passed": true
+}
