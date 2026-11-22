@@ -1,0 +1,101 @@
+{
+  "model_version": "credit-default-lgbm-1.0.0",
+  "trained_at_utc": "2026-11-16T12:25:43+00:00",
+  "selected_model": "LightGBM - threshold tuning (unweighted)",
+  "decision_threshold": 0.16,
+  "baseline_logreg_threshold": 0.12,
+  "fallback_rule_threshold": 0.21,
+  "input_features": [
+    "revol_util",
+    "age",
+    "late_30_59",
+    "late_60_89",
+    "late_90",
+    "debt_ratio",
+    "monthly_income",
+    "open_lines",
+    "real_estate_lines",
+    "dependents"
+  ],
+  "model_features": [
+    "revol_util",
+    "age",
+    "late_30_59",
+    "late_60_89",
+    "late_90",
+    "debt_ratio",
+    "monthly_income",
+    "open_lines",
+    "real_estate_lines",
+    "dependents",
+    "late_code_flag",
+    "income_missing",
+    "total_late",
+    "ever_90_late",
+    "monthly_debt",
+    "income_per_member",
+    "non_re_lines",
+    "util_over_1"
+  ],
+  "cost_fn": 5.0,
+  "cost_fp": 1.0,
+  "train_rows": 104655,
+  "train_default_rate": 0.06697243323300368,
+  "validation_metrics": {
+    "B0 Prior (dummy)": {
+      "pr_auc": 0.06684444444444444,
+      "roc_auc": 0.5,
+      "f1_macro": 0.4827110538900129,
+      "brier": 0.062376281072488035,
+      "threshold": 0.5,
+      "cost_per_applicant": 0.3342222222222222,
+      "fit_s": 0.0
+    },
+    "B1 Heuristic rule": {
+      "pr_auc": 0.32706349032790666,
+      "roc_auc": 0.828775342339777,
+      "f1_macro": 0.6863740517896616,
+      "brier": 0.051936444444444445,
+      "threshold": 0.21,
+      "cost_per_applicant": 0.22502222222222223,
+      "fit_s": 0.0
+    },
+    "B2 Logistic regression": {
+      "pr_auc": 0.3936478285672634,
+      "roc_auc": 0.8621742920637366,
+      "f1_macro": 0.6783689616460071,
+      "brier": 0.05008103536479887,
+      "threshold": 0.12,
+      "cost_per_applicant": 0.22026666666666667,
+      "fit_s": 0.2127232551574707
+    },
+    "LightGBM - threshold tuning (unweighted)": {
+      "pr_auc": 0.41431892101649,
+      "roc_auc": 0.8706159804248427,
+      "f1_macro": 0.6921161144582003,
+      "brier": 0.048598136416785474,
+      "threshold": 0.16,
+      "cost_per_applicant": 0.21146666666666666,
+      "fit_s": 2.3019182682037354
+    },
+    "LightGBM - class-weighted loss": {
+      "pr_auc": 0.4151111532118372,
+      "roc_auc": 0.8678280728750765,
+      "f1_macro": 0.6929887282330673,
+      "brier": 0.1341024156267169,
+      "threshold": 0.72,
+      "cost_per_applicant": 0.21124444444444446,
+      "fit_s": 2.5489559173583984
+    }
+  },
+  "selected_params": {
+    "num_leaves": 15,
+    "min_child_samples": 50,
+    "learning_rate": 0.03,
+    "n_estimators": 400,
+    "subsample": 0.85,
+    "subsample_freq": 1,
+    "colsample_bytree": 0.7,
+    "reg_lambda": 5.0
+  }
+}
